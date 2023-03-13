@@ -28,8 +28,8 @@ public class MySQLAdsDao implements Ads{
             ResultSet rs = stmt.executeQuery("SELECT * FROM ymir_billie.ads");
             while (rs.next()) {
                 ads.add(new Ad(
-                        rs.getInt("ad_no"),
-                        rs.getInt("user_id"),
+                        rs.getLong("id"),
+                        rs.getLong("user_id"),
                         rs.getString("title"),
                         rs.getString("description")
                 ));
