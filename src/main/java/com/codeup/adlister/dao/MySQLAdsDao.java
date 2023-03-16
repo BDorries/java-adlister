@@ -52,10 +52,18 @@ public class MySQLAdsDao implements Ads {
     }
 
     private String createInsertQuery(Ad ad) {
-        return "INSERT INTO ads(user_id, title, description) VALUES "
-            + "(" + ad.getUserId() + ", "
-            + "'" + ad.getTitle() +"', "
-            + "'" + ad.getDescription() + "')";
+        String sql;
+        sql = "INSERT INTO ads(user_id, title, description) VALUES (?,?,?)";
+
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setLong(1, ad.getUserId());
+            stmt.setString(2, ad.getTitle());
+            stmt.setString(3, ad.getDescription());
+            return sql;
+        } catch (SQLException e) {
+            throw new RuntimeException("Unhandled SQL exception",e);
+        }
     }
 
     private Ad extractAd(ResultSet rs) throws SQLException {
